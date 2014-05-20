@@ -75,8 +75,12 @@ if [ "$CDINSTALL" = "no" ] ; then
       exit 0
     fi
 
-    filesystem_dev=$(map_disk0 $blockdev)
-    CLEANUP+=("unmap_disk0 $blockdev")
+    if [ "${FDISK}" = "none" ] ; then
+       filesystem_dev="$blockdev"
+    else
+       filesystem_dev=$(map_disk0 $blockdev)
+       CLEANUP+=("unmap_disk0 $blockdev")
+    fi
     root_dev=$(map_partition $filesystem_dev root)
     boot_dev=$(map_partition $filesystem_dev boot)
     swap_dev=$(map_partition $filesystem_dev swap)

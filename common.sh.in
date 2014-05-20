@@ -300,7 +300,9 @@ map_disk0() {
 map_partition() {
     filesystem_dev="$1"
     partition="$2"
-    if [ "${SWAP}" = "yes" -a -z "${KERNEL_PATH}" ] ; then
+    if [ "${FDISK}" = "none" ] ; then
+       root_dev="${filesystem_dev}"
+    elif [ "${SWAP}" = "yes" -a -z "${KERNEL_PATH}" ] ; then
         boot_dev="${filesystem_dev}-1"
         swap_dev="${filesystem_dev}-2"
         root_dev="${filesystem_dev}-3"
